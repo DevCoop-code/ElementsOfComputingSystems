@@ -2,6 +2,6 @@
 Study about elements of computing systems
 
 ## Computing System Layer
-![computingSystemLayer](./Images/computingSystemLayer.png)<br>
+![computingSystemLayer](./images/computingSystemLayer.png)<br>
 
-![computingSystem](./Images/computingSystem.png)<br>
+![computingSystem](./images/computingSystem.png)<br>

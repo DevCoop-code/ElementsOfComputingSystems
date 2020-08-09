@@ -1,10 +1,10 @@
 CHIP Xor {
-    IN x, y;
+    IN a, b;
     OUT out;
     PARTS:
-    Nand(a=x, b=y, out=nandXY);
-    Nand(a=x, b=x, out=nandORX);
-    Nand(a=y, b=y, out=nandORY);
+    Nand(a=a, b=a, out=nandXY);
+    Nand(a=a, b=a, out=nandORX);
+    Nand(a=b, b=b, out=nandORY);
     Nand(a=nandORX, b=nandORY, out=nandORXY);
     Nand(a=nandXY, b=nandORXY, out=XorOut);
     Nand(a=XorOut, b=XorOut, out=out);

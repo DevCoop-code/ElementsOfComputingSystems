@@ -1,8 +1,8 @@
 CHIP Or {
-    IN x, y;
+    IN a, b;
     OUT out;
     PARTS:
-    Nand(a=x, b=x, out=nandX);
-    Nand(a=y, b=y, out=nandY);
+    Nand(a=a, b=b, out=nandX);
+    Nand(a=a, b=b, out=nandY);
     Nand(a=nandX, b=nandY, out=out);
 }

@@ -1,0 +1,53 @@
+/*
+Chip Name: ALU
+Inputs 
+    x[16], y[16]        두 개의 16비트 데이터 입력
+    zx                  입력 x를 0으로
+    nx                  입력 x를 반전
+    zy                  입력 y를 0으로
+    ny                  입력 y를 반전
+    f                   함수 코드 (1: Add, 0: And)
+    no                  출력 out을 반전
+Outputs
+    out[16]             16비트 출력
+    zr                  out=0일 때만 True
+    ng                  out<0 일 때만 True
+*/
+CHIP ALU {
+    IN 
+        x[16], y[16],
+        zx,
+        nx,
+        zy,
+        ny,
+        f,
+        no;
+    OUT 
+        out[16],
+        zr,
+        ng;
+
+    PARTS:
+    Not16(in=x, out=notx);
+    Not16(in=y, out=noty);
+    
+    Mux4Way16(sel[1]=nx, sel[0]=zx, a=x, b=false, c=notx, d=true, out=x1);
+    Mux4Way16(sel[1]=ny, sel[0]=zy, a=y, b=false, c=noty, d=true, out=y1);
+    
+    // f operate
+    Add16(a=x1, b=y1, out=xPlusy);
+    And16(a=x1, b=y1, out=xAndy);
+    
+    // pick the operation
+    Mux16(sel=f, a=xAndy, b=xPlusy, out=out1);
+    
+    Not16(in=out1, out=notout1);
+
+    Mux16(sel=no, a=out1, b=notout1, out[0..7]=outLow, out[8..15]=outHigh, out[15]=ng, out=out);
+
+    // determine if out is zero
+    Or8Way(in=outLow, out=zrLow);
+    Or8Way(in=outHigh, out=zrHigh);
+    Or(a=zrLow, b=zrHigh, out=notzr);
+    Not(in=notzr, out=zr);
+}
